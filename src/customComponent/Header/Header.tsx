@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-const Home: FC = () => {
+const Header: FC = () => {
   return (
     <View style={styles.container}>
       <Text>This is Home</Text>
@@ -9,7 +9,7 @@ const Home: FC = () => {
   );
 };
 
-export default Home;
+export default Header;
 
 const styles = StyleSheet.create({
   container: {

@@ -1,18 +1,24 @@
-import React, {FC} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
-
-const App: FC = () => {
+import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
+import * as React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+////////////////////////////////////////////////////////////
+import Home from './Home';
+import Note from './Note';
+////////////////////////////////////////////////////////////
+//stack navigation
+const Stack = createStackNavigator();
+const App = () => {
   return (
-    <View>
-      <Text>1</Text>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+          ...TransitionPresets.SlideFromRightIOS,
+        }}>
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Note" component={Note} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
-
 export default App;
