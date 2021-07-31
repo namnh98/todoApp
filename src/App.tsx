@@ -1,5 +1,5 @@
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
-import * as React from 'react';
+import React, {FC} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 ////////////////////////////////////////////////////////////
 import Home from './Home';
@@ -7,7 +7,7 @@ import Note from './Note';
 ////////////////////////////////////////////////////////////
 //stack navigation
 const Stack = createStackNavigator();
-const App = () => {
+const App: FC = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
