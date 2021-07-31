@@ -19,8 +19,8 @@ const {width, height} = Dimensions.get('window');
 const AddNewNote: FC = props => {
   return (
     <Modal animationType="fade" transparent={true} visible={props.visible}>
-      <View style={styles.container}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View style={styles.container}>
           <View style={styles.Modal}>
             <Header title="Thêm ghi chú mới" />
             <View style={{height: 10}} />
@@ -40,8 +40,8 @@ const AddNewNote: FC = props => {
               </TouchableOpacity>
             </View>
           </View>
-        </TouchableWithoutFeedback>
-      </View>
+        </View>
+      </TouchableWithoutFeedback>
     </Modal>
   );
 };
