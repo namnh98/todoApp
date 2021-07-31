@@ -7,31 +7,33 @@ import {colors} from '../../styleCustom/Color';
 const Header: FC = props => {
   const backIcon = () => {
     return (
-      <TouchableOpacity onPress={props.backPressed}>
-        <Image source={Images.ic_arrow} style={styles.icon} />
+      <TouchableOpacity onPress={props.backPressed} style={styles.button}>
+        <Image source={Images.ic_arrow_left} style={styles.icon} />
       </TouchableOpacity>
     );
   };
   const editIcon = () => {
     return (
-      <TouchableOpacity onPress={props.editPressed}>
+      <TouchableOpacity onPress={props.editPressed} style={styles.button}>
         <Image source={Images.ic_edit} style={styles.icon} />
       </TouchableOpacity>
     );
   };
   const logoutIcon = () => {
     return (
-      <TouchableOpacity onPress={props.logoutPressed}>
+      <TouchableOpacity onPress={props.logoutPressed} style={styles.button}>
         <Image source={Images.ic_logout} style={styles.icon} />
       </TouchableOpacity>
     );
   };
+  const noProps = () => {
+    return <View style={{width: Size.s60}} />;
+  };
   return (
     <View style={styles.container}>
-      {props.back ? backIcon() : null}
-      {props.logout ? logoutIcon() : null}
+      {props.logout ? logoutIcon() : noProps()}
       <Text style={styles.titleHeader}>{props.title}</Text>
-      {props.edit ? editIcon() : null}
+      {props.edit ? editIcon() : noProps()}
     </View>
   );
 };
@@ -40,7 +42,7 @@ export default Header;
 
 const styles = StyleSheet.create({
   container: {
-    height: Size.s160,
+    height: Size.s140,
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -54,5 +56,10 @@ const styles = StyleSheet.create({
   },
   titleHeader: {
     fontSize: Size.h34,
+  },
+  button: {
+    width: Size.s100,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
