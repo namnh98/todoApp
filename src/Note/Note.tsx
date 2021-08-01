@@ -114,7 +114,7 @@ export default Note;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.gray,
+    backgroundColor: colors.gray2,
   },
   itemNote: {
     paddingHorizontal: Size.h16,

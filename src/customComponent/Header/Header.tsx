@@ -5,13 +5,13 @@ import Size from '../../styleCustom/Size';
 import {colors} from '../../styleCustom/Color';
 
 const Header: FC = props => {
-  const backIcon = () => {
-    return (
-      <TouchableOpacity onPress={props.backPressed} style={styles.button}>
-        <Image source={Images.ic_arrow_left} style={styles.icon} />
-      </TouchableOpacity>
-    );
-  };
+  // const backIcon = () => {
+  //   return (
+  //     <TouchableOpacity onPress={props.backPressed} style={styles.button}>
+  //       <Image source={Images.ic_arrow_left} style={styles.icon} />
+  //     </TouchableOpacity>
+  //   );
+  // };
   const editIcon = () => {
     return (
       <TouchableOpacity onPress={props.editPressed} style={styles.button}>
@@ -51,11 +51,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: Size.h16,
     borderBottomWidth: 1,
     borderBottomColor: colors.gray2,
-    backgroundColor: colors.white,
   },
   icon: {
     width: Size.s60,
     height: Size.s60,
+    tintColor: colors.white,
   },
   titleHeader: {
     fontSize: Size.h34,
@@ -65,7 +65,10 @@ const styles = StyleSheet.create({
   },
   button: {
     width: Size.s100,
+    height: Size.s100,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: colors.blue2,
+    borderRadius: 15,
   },
 });
