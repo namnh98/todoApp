@@ -32,7 +32,9 @@ const Header: FC = props => {
   return (
     <View style={styles.container}>
       {props.logout ? logoutIcon() : noProps()}
-      <Text style={styles.titleHeader}>{props.title}</Text>
+      <View style={{alignItems: 'center'}}>
+        <Text style={styles.titleHeader}>{props.title}</Text>
+      </View>
       {props.edit ? editIcon() : noProps()}
     </View>
   );
@@ -49,6 +51,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Size.h16,
     borderBottomWidth: 1,
     borderBottomColor: colors.gray2,
+    backgroundColor: colors.white,
   },
   icon: {
     width: Size.s60,
@@ -56,6 +59,9 @@ const styles = StyleSheet.create({
   },
   titleHeader: {
     fontSize: Size.h34,
+  },
+  subTitleHeader: {
+    fontSize: Size.h30,
   },
   button: {
     width: Size.s100,

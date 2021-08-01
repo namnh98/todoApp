@@ -9,10 +9,12 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
+  Image,
 } from 'react-native';
 import Size from '../../styleCustom/Size';
 import {colors} from '../../styleCustom/Color';
 import Header from '../Header';
+import Images from '../../assets';
 
 const {width, height} = Dimensions.get('window');
 
@@ -26,18 +28,30 @@ const AddNewNote: FC = props => {
             <View style={{height: 10}} />
             <View style={styles.inputModal}>
               <TextInput
-                autoFocus
                 value={props.noteModal}
                 onChangeText={props.handleNoteModal}
               />
+              {props.noteModal ? (
+                <TouchableOpacity
+                  onPress={props.handleClearNoteModal}
+                  style={styles.buttonClearNoteModal}>
+                  <Image source={Images.ic_close} style={styles.buttonIcon} />
+                </TouchableOpacity>
+              ) : null}
             </View>
             <View style={{height: 10}} />
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
-              <TouchableOpacity
-                onPress={props.modalPressed}
-                style={styles.buttonModal}>
-                <Text style={styles.titleButtonModal}>Thêm</Text>
-              </TouchableOpacity>
+              {props.noteModal ? (
+                <TouchableOpacity
+                  onPress={props.modalPressed}
+                  style={styles.buttonModalWithValue}>
+                  <Text style={styles.titleButtonModal}>Thêm</Text>
+                </TouchableOpacity>
+              ) : (
+                <View style={styles.buttonModalWithoutValue}>
+                  <Text style={styles.titleButtonModal}>Thêm</Text>
+                </View>
+              )}
             </View>
           </View>
         </View>
@@ -68,7 +82,15 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: Size.h16,
   },
-  buttonModal: {
+  buttonModalWithoutValue: {
+    backgroundColor: colors.gray,
+    width: Size.s200,
+    height: Size.s100,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonModalWithValue: {
     backgroundColor: colors.blue,
     width: Size.s200,
     height: Size.s100,
@@ -79,5 +101,20 @@ const styles = StyleSheet.create({
   titleButtonModal: {
     fontSize: Size.h30,
     color: colors.white,
+  },
+  buttonIcon: {
+    width: Size.s40,
+    height: Size.s40,
+  },
+  buttonClearNoteModal: {
+    position: 'absolute',
+    left: 265,
+    top: 5,
+    backgroundColor: colors.gray2,
+    width: Size.s80 - Size.s10,
+    height: Size.s80 - Size.s10,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
