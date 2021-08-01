@@ -5,7 +5,7 @@ import {
   StyleSheet,
   Alert,
   Text,
-  Image,
+  SafeAreaView,
   TouchableOpacity,
   Dimensions,
   Keyboard,
@@ -15,9 +15,6 @@ import Size from '../styleCustom/Size';
 import {colors, fonts} from '../styleCustom/Color';
 import {useNavigation} from '@react-navigation/core';
 import AddNewNote from '../customComponent/AddNewNote';
-import {ScrollView} from 'react-native-gesture-handler';
-import Images from '../assets';
-import {SafeAreaView} from 'react-native-safe-area-context';
 
 const {width, height} = Dimensions.get('window');
 
@@ -26,23 +23,10 @@ const Note: FC = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [task, setTask] = useState<string>(false);
   const [taskItem, setTaskItem] = useState<any>([]);
-  const [itemAfter, setItemAfter] = useState<number>(0);
-
-  const onPressLogout = () => {
-    Alert.alert('Thông báo', 'Bạn có muốn thoát ứng dụng', [
-      {
-        text: 'Đăng xuất',
-        onPress: () => navigation.goBack(),
-        style: 'cancel',
-      },
-      {
-        text: 'Huỷ bỏ',
-      },
-    ]);
-  };
 
   const onPressAdd = () => {
     setOpen(true);
+    // console.log('1');
   };
 
   const addNewTask = (text: string) => {
@@ -63,7 +47,6 @@ const Note: FC = () => {
   const checkedTask = (index: number) => {
     var itemNow = [...taskItem];
     itemNow.splice(index, 1);
-    setItemAfter(itemNow.length);
     setTaskItem(itemNow);
   };
 
@@ -71,46 +54,44 @@ const Note: FC = () => {
     setOpen(false);
   };
   return (
-    <SafeAreaView>
-      <View style={styles.container}>
-        <Header
-          title="Danh sách ghi chú của tôi"
-          add
-          addPressed={onPressAdd}
-          handleCloseModal={closeModal}
-          allTask={taskItem.length}
-        />
-        <View style={{alignItems: 'center', paddingVertical: Size.h16}}>
-          {taskItem.map((item: any, index: number) => {
-            return (
-              <>
-                <TouchableOpacity
-                  style={styles.itemNote}
-                  key={index}
-                  onPress={() => checkedTask(index)}>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <View style={styles.unCheckedSquare} />
-                    <View style={{width: 10}} />
-                    <Text style={styles.itemContent}>{item}</Text>
-                  </View>
-                  <View style={styles.unchecked} />
-                </TouchableOpacity>
-                <View style={{height: 10}} />
-              </>
-            );
-          })}
-        </View>
-        {open ? (
-          <AddNewNote
-            visible={open}
-            modalPressed={handleWithTask}
-            noteModal={task}
-            handleNoteModal={addNewTask}
-            handleClearNoteModal={clearTask}
-            handleCloseModal={closeModal}
-          />
-        ) : null}
+    <SafeAreaView style={styles.container}>
+      <Header
+        title="Danh sách ghi chú của tôi"
+        add
+        addPressed={onPressAdd}
+        handleCloseModal={closeModal}
+        allTask={taskItem.length}
+      />
+      <View style={{alignItems: 'center', paddingVertical: Size.h16}}>
+        {taskItem.map((item: any, index: number) => {
+          return (
+            <>
+              <TouchableOpacity
+                style={styles.itemNote}
+                key={index}
+                onPress={() => checkedTask(index)}>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <View style={styles.unCheckedSquare} />
+                  <View style={{width: 10}} />
+                  <Text style={styles.itemContent}>{item}</Text>
+                </View>
+                <View style={styles.unchecked} />
+              </TouchableOpacity>
+              <View style={{height: 10}} />
+            </>
+          );
+        })}
       </View>
+      {open ? (
+        <AddNewNote
+          visible={open}
+          modalPressed={handleWithTask}
+          noteModal={task}
+          handleNoteModal={addNewTask}
+          handleClearNoteModal={clearTask}
+          handleCloseModal={closeModal}
+        />
+      ) : null}
     </SafeAreaView>
   );
 };

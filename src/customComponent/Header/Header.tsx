@@ -1,29 +1,22 @@
 import React, {FC} from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  StatusBar,
+} from 'react-native';
 import Images from '../../assets';
 import Size from '../../styleCustom/Size';
 import {colors} from '../../styleCustom/Color';
 import {color} from 'react-native-reanimated';
 
 const Header: FC = props => {
-  const backIcon = () => {
-    return (
-      <TouchableOpacity onPress={props.backPressed} style={styles.button}>
-        <Image source={Images.ic_arrow_left} style={styles.icon} />
-      </TouchableOpacity>
-    );
-  };
   const addIcon = () => {
     return (
       <TouchableOpacity onPress={props.addPressed} style={styles.button}>
         <Text style={{fontSize: Size.h40 * 1.5, color: colors.white}}>+</Text>
-      </TouchableOpacity>
-    );
-  };
-  const logoutIcon = () => {
-    return (
-      <TouchableOpacity onPress={props.logoutPressed} style={styles.button}>
-        <Image source={Images.ic_logout} style={styles.icon} />
       </TouchableOpacity>
     );
   };
@@ -49,7 +42,7 @@ const Header: FC = props => {
           </Text>
         ) : null}
       </View>
-      {props.add ? addIcon() : props.close ? closeIcon() : noProps()}
+      {props.add ? addIcon() : closeIcon()}
     </View>
   );
 };

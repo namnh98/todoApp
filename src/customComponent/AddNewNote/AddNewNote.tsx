@@ -30,7 +30,12 @@ const AddNewNote: FC = props => {
               closePressed={props.handleCloseModal}
             />
             <View style={{height: 10}} />
-            <View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                width: width * 0.55,
+              }}>
               <View style={styles.inputModal}>
                 <TextInput
                   value={props.noteModal}
@@ -79,7 +84,7 @@ const styles = StyleSheet.create({
   Modal: {
     backgroundColor: colors.white,
     width: width * 0.8,
-    height: height * 0.25,
+    height: height * 0.3,
     borderRadius: 20,
     paddingHorizontal: Size.h16,
   },
@@ -115,15 +120,14 @@ const styles = StyleSheet.create({
     height: Size.s40,
   },
   buttonClearNoteModal: {
-    position: 'absolute',
-    left: 250,
-    top: 5,
     backgroundColor: colors.gray2,
-    width: Size.s80 - Size.s10,
-    height: Size.s80 - Size.s10,
+    width: Size.s60,
+    height: Size.s60,
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'absolute',
+    left: 270,
   },
   textInputModal: {
     height: 50,
