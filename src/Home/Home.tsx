@@ -13,6 +13,7 @@ const Home: FC = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>My Note App</Text>
+      <View style={{height: 10}} />
       <TouchableOpacity style={styles.button} onPress={handlePressed}>
         <Text style={styles.titleButton}>Let's note.</Text>
       </TouchableOpacity>
@@ -27,6 +28,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: colors.gray2,
   },
   title: {
     fontSize: Size.h38 * 2,

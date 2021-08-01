@@ -24,13 +24,21 @@ const AddNewNote: FC = props => {
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.container}>
           <View style={styles.Modal}>
-            <Header title="Thêm ghi chú mới" />
+            <Header
+              title="Thêm ghi chú mới"
+              close
+              closePressed={props.handleCloseModal}
+            />
             <View style={{height: 10}} />
-            <View style={styles.inputModal}>
-              <TextInput
-                value={props.noteModal}
-                onChangeText={props.handleNoteModal}
-              />
+            <View>
+              <View style={styles.inputModal}>
+                <TextInput
+                  value={props.noteModal}
+                  onChangeText={props.handleNoteModal}
+                  style={styles.textInputModal}
+                  maxLength={50}
+                />
+              </View>
               {props.noteModal ? (
                 <TouchableOpacity
                   onPress={props.handleClearNoteModal}
@@ -71,7 +79,7 @@ const styles = StyleSheet.create({
   Modal: {
     backgroundColor: colors.white,
     width: width * 0.8,
-    height: height * 0.3,
+    height: height * 0.25,
     borderRadius: 20,
     paddingHorizontal: Size.h16,
   },
@@ -85,7 +93,7 @@ const styles = StyleSheet.create({
   buttonModalWithoutValue: {
     backgroundColor: colors.gray,
     width: Size.s200,
-    height: Size.s100,
+    height: Size.s80,
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
@@ -93,7 +101,7 @@ const styles = StyleSheet.create({
   buttonModalWithValue: {
     backgroundColor: colors.blue,
     width: Size.s200,
-    height: Size.s100,
+    height: Size.s80,
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
@@ -108,7 +116,7 @@ const styles = StyleSheet.create({
   },
   buttonClearNoteModal: {
     position: 'absolute',
-    left: 265,
+    left: 250,
     top: 5,
     backgroundColor: colors.gray2,
     width: Size.s80 - Size.s10,
@@ -116,5 +124,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  textInputModal: {
+    height: 50,
+    color: colors.black,
   },
 });

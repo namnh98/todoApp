@@ -17,6 +17,7 @@ import {useNavigation} from '@react-navigation/core';
 import AddNewNote from '../customComponent/AddNewNote';
 import {ScrollView} from 'react-native-gesture-handler';
 import Images from '../assets';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const {width, height} = Dimensions.get('window');
 
@@ -40,7 +41,7 @@ const Note: FC = () => {
     ]);
   };
 
-  const onPressEdit = () => {
+  const onPressAdd = () => {
     setOpen(true);
   };
 
@@ -60,52 +61,57 @@ const Note: FC = () => {
   };
 
   const checkedTask = (index: number) => {
-    console.log('1', index);
     var itemNow = [...taskItem];
     itemNow.splice(index, 1);
     setItemAfter(itemNow.length);
     setTaskItem(itemNow);
   };
 
+  const closeModal = () => {
+    setOpen(false);
+  };
   return (
-    <View style={styles.container}>
-      <Header
-        title="Danh sách ghi chú của tôi"
-        logout
-        logoutPressed={onPressLogout}
-        edit
-        editPressed={onPressEdit}
-      />
-      <View style={{alignItems: 'center', paddingVertical: Size.h16}}>
-        {taskItem.map((item: any, index: number) => {
-          return (
-            <>
-              <TouchableOpacity
-                style={styles.itemNote}
-                key={index}
-                onPress={() => checkedTask(index)}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <View style={styles.unCheckedSquare} />
-                  <View style={{width: 10}} />
-                  <Text style={styles.itemContent}>{item}</Text>
-                </View>
-                <View style={styles.unchecked} />
-              </TouchableOpacity>
-              <View style={{height: 10}} />
-            </>
-          );
-        })}
-      </View>
-      {open ? (
-        <AddNewNote
-          visible={open}
-          modalPressed={handleWithTask}
-          noteModal={task}
-          handleNoteModal={addNewTask}
-          handleClearNoteModal={clearTask}
+    <SafeAreaView>
+      <View style={styles.container}>
+        <Header
+          title="Danh sách ghi chú của tôi"
+          add
+          addPressed={onPressAdd}
+          handleCloseModal={closeModal}
+          allTask={taskItem.length}
         />
-      ) : null}
-    </View>
+        <View style={{alignItems: 'center', paddingVertical: Size.h16}}>
+          {taskItem.map((item: any, index: number) => {
+            return (
+              <>
+                <TouchableOpacity
+                  style={styles.itemNote}
+                  key={index}
+                  onPress={() => checkedTask(index)}>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <View style={styles.unCheckedSquare} />
+                    <View style={{width: 10}} />
+                    <Text style={styles.itemContent}>{item}</Text>
+                  </View>
+                  <View style={styles.unchecked} />
+                </TouchableOpacity>
+                <View style={{height: 10}} />
+              </>
+            );
+          })}
+        </View>
+        {open ? (
+          <AddNewNote
+            visible={open}
+            modalPressed={handleWithTask}
+            noteModal={task}
+            handleNoteModal={addNewTask}
+            handleClearNoteModal={clearTask}
+            handleCloseModal={closeModal}
+          />
+        ) : null}
+      </View>
+    </SafeAreaView>
   );
 };
 
