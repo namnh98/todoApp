@@ -114,7 +114,6 @@
 				7F99CE17DF317A400ACF957F /* Pods-todoApp-todoAppTests.debug.xcconfig */,
 				17165BF194D6DDA62FE39DB5 /* Pods-todoApp-todoAppTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
