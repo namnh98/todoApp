@@ -2,7 +2,6 @@ import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import React, {FC} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 ////////////////////////////////////////////////////////////
-import Home from './Home';
 import Note from './Note';
 ////////////////////////////////////////////////////////////
 //stack navigation
@@ -15,7 +14,6 @@ const App: FC = () => {
           headerShown: false,
           ...TransitionPresets.SlideFromRightIOS,
         }}>
-        <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Note" component={Note} />
       </Stack.Navigator>
     </NavigationContainer>

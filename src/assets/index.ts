@@ -4,6 +4,8 @@ const Images = {
   ic_edit: require('./images/edit-square.png'),
   ic_logout: require('./images/logout.png'),
   ic_close: require('./images/close-square.png'),
+  ic_logo: require('./images/logo.png'),
+  ic_delete: require('./images/Delete.png'),
 };
 
 export default Images;

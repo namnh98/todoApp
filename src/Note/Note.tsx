@@ -9,25 +9,21 @@ import {
   TouchableOpacity,
   Dimensions,
   Keyboard,
+  StatusBar,
+  Image,
+  TextInput,
+  ScrollView,
 } from 'react-native';
-import Header from '../customComponent/Header';
 import Size from '../styleCustom/Size';
 import {colors, fonts} from '../styleCustom/Color';
-import {useNavigation} from '@react-navigation/core';
-import AddNewNote from '../customComponent/AddNewNote';
+import Images from '../assets';
 
 const {width, height} = Dimensions.get('window');
 
 const Note: FC = () => {
-  const navigation = useNavigation();
-  const [open, setOpen] = useState<boolean>(false);
+  const [checked, setChecked] = useState<boolean>(false);
   const [task, setTask] = useState<string>(false);
   const [taskItem, setTaskItem] = useState<any>([]);
-
-  const onPressAdd = () => {
-    setOpen(true);
-    // console.log('1');
-  };
 
   const addNewTask = (text: string) => {
     setTask(text);
@@ -40,58 +36,90 @@ const Note: FC = () => {
   const handleWithTask = () => {
     Keyboard.dismiss();
     setTaskItem([...taskItem, task]);
-    setOpen(false);
     setTask(null);
   };
 
-  const checkedTask = (index: number) => {
-    var itemNow = [...taskItem];
-    itemNow.splice(index, 1);
-    setTaskItem(itemNow);
+  const clearTaskAll = (index: number) => {
+    // var itemNow = [...taskItem];
+    // itemNow.splice(index, 1);
+    // setTaskItem(itemNow);
+    setTaskItem([]);
   };
 
-  const closeModal = () => {
-    setOpen(false);
+  const onCheckedDone = () => {
+    setChecked(true);
   };
+
   return (
     <SafeAreaView style={styles.container}>
-      <Header
-        title="Danh sách ghi chú của tôi"
-        add
-        addPressed={onPressAdd}
-        handleCloseModal={closeModal}
-        allTask={taskItem.length}
-      />
-      <View style={{alignItems: 'center', paddingVertical: Size.h16}}>
-        {taskItem.map((item: any, index: number) => {
-          return (
-            <>
-              <TouchableOpacity
-                style={styles.itemNote}
-                key={index}
-                onPress={() => checkedTask(index)}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <View style={styles.unCheckedSquare} />
-                  <View style={{width: 10}} />
-                  <Text style={styles.itemContent}>{item}</Text>
-                </View>
-                <View style={styles.unchecked} />
-              </TouchableOpacity>
-              <View style={{height: 10}} />
-            </>
-          );
-        })}
+      <StatusBar barStyle="light-content" />
+      <View style={styles.headerContainer}>
+        <Image source={Images.ic_logo} style={styles.logoHeader} />
+        <View style={{alignItems: 'flex-end'}}>
+          <TouchableOpacity
+            style={styles.buttonClearTask}
+            onPress={clearTaskAll}>
+            <Image source={Images.ic_delete} style={styles.iconButtonDelete} />
+          </TouchableOpacity>
+          <Text style={styles.timeDoTask}>03/08/2021</Text>
+          <Text style={styles.amountDoTask}>
+            Có {task.length > 0 || 0} công việc
+          </Text>
+        </View>
       </View>
-      {open ? (
-        <AddNewNote
-          visible={open}
-          modalPressed={handleWithTask}
-          noteModal={task}
-          handleNoteModal={addNewTask}
-          handleClearNoteModal={clearTask}
-          handleCloseModal={closeModal}
-        />
-      ) : null}
+      <View style={styles.bodyContainer}>
+        <ScrollView>
+          {taskItem.map((index: any) => {
+            return (
+              <TouchableOpacity
+                style={{paddingVertical: Size.h16}}
+                onPress={onCheckedDone}>
+                <View
+                  style={checked ? styles.itemNoteChecked : styles.itemNote}>
+                  <View
+                    style={checked ? styles.dotTaskChecked : styles.dotTask}
+                  />
+                  <Text
+                    style={
+                      checked ? styles.itemContentChecked : styles.itemContent
+                    }>
+                    {index}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+      </View>
+      <View style={styles.endContainer}>
+        <View style={{paddingHorizontal: Size.h16}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <View style={styles.inputTask}>
+              <TextInput
+                placeholder="Nhập task của bạn..."
+                style={styles.taskContent}
+                value={task}
+                onChangeText={addNewTask}
+              />
+            </View>
+            <View style={{width: 10}} />
+            {task ? (
+              <TouchableOpacity
+                style={styles.buttonCleanTask}
+                onPress={clearTask}>
+                <Text style={{fontSize: Size.h20 * 2}}>x</Text>
+              </TouchableOpacity>
+            ) : null}
+          </View>
+        </View>
+        <TouchableOpacity style={styles.buttonAdd} onPress={handleWithTask}>
+          <Text style={styles.iconButtonAdd}>+</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
@@ -101,11 +129,52 @@ export default Note;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.gray2,
+    backgroundColor: colors.blue6,
+  },
+  headerContainer: {
+    height: 150,
+    width: width,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: Size.h16,
+  },
+  logoHeader: {
+    resizeMode: 'contain',
+    width: Size.s200 + Size.s140,
+    height: Size.s200,
+  },
+  iconButtonDelete: {
+    resizeMode: 'contain',
+    width: Size.h44,
+    height: Size.h44,
+  },
+  buttonClearTask: {
+    backgroundColor: colors.white,
+    width: Size.h44 * 2,
+    height: Size.h44 * 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+  },
+  timeDoTask: {
+    color: colors.white,
+    fontSize: Size.h28,
+    fontWeight: '500',
+    paddingVertical: Size.h16 / 2,
+  },
+  amountDoTask: {
+    color: colors.white,
+    fontSize: Size.h34,
+    fontWeight: '500',
+  },
+  bodyContainer: {
+    width: width,
+    height: height * 0.6,
+    alignItems: 'center',
   },
   itemNote: {
     paddingHorizontal: Size.h16,
-    justifyContent: 'space-between',
     alignItems: 'center',
     height: Size.s140,
     flexDirection: 'row',
@@ -115,10 +184,81 @@ const styles = StyleSheet.create({
     width: width * 0.95,
     borderRadius: 10,
   },
+  itemNoteChecked: {
+    paddingHorizontal: Size.h16,
+    alignItems: 'center',
+    height: Size.s140,
+    flexDirection: 'row',
+    borderBottomColor: colors.gray5,
+    borderBottomWidth: 1,
+    backgroundColor: colors.gray,
+    width: width * 0.95,
+    borderRadius: 10,
+  },
   itemContent: {
-    fontSize: Size.h34,
-    fontFamily: fonts.semibold,
-    color: colors.black2,
+    fontSize: Size.h38,
+    paddingHorizontal: Size.h16,
+  },
+  itemContentChecked: {
+    fontSize: Size.h38,
+    paddingHorizontal: Size.h16,
+    color: colors.black,
+  },
+  dotTask: {
+    backgroundColor: colors.blue6,
+    width: Size.s40,
+    height: Size.s40,
+    borderRadius: 20,
+  },
+  dotTaskChecked: {
+    backgroundColor: colors.black,
+    width: Size.s40,
+    height: Size.s40,
+    borderRadius: 20,
+  },
+  endContainer: {
+    width: width,
+    height: Size.s200 + Size.s60,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+  },
+  inputTask: {
+    width: Size.s200 + Size.s340,
+    height: Size.s160,
+    borderRadius: 20,
+    backgroundColor: colors.white,
+    justifyContent: 'center',
+    paddingHorizontal: Size.h16,
+  },
+  taskContent: {
+    fontSize: Size.h32,
+    color: colors.black,
+  },
+  buttonAdd: {
+    backgroundColor: colors.white,
+    width: Size.s100,
+    height: Size.s100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
+  },
+  iconButtonAdd: {
+    fontSize: Size.s100,
+    color: colors.blue6,
+    textAlign: 'center',
+    bottom: 8,
+  },
+  buttonCleanTask: {
+    backgroundColor: colors.gray,
+    width: Size.s140 / 2,
+    height: Size.s140 / 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+    position: 'absolute',
+    left: width * 0.6,
   },
   itemButton: {
     flexDirection: 'row',
