@@ -14,9 +14,10 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
-import Size from '../styleCustom/Size';
-import {colors, fonts} from '../styleCustom/Color';
-import Images from '../assets';
+import Size from '../../styles/Size';
+import {colors} from '../../styles/Color';
+import Images from '../../assets';
+import moment from 'moment';
 
 const {width, height} = Dimensions.get('window');
 
@@ -24,6 +25,7 @@ const Note: FC = () => {
   const [checked, setChecked] = useState<boolean>(false);
   const [task, setTask] = useState<string>(false);
   const [taskItem, setTaskItem] = useState<any>([]);
+  const [open, setOpen] = useState<boolean>(false);
 
   const addNewTask = (text: string) => {
     setTask(text);
@@ -39,16 +41,29 @@ const Note: FC = () => {
     setTask(null);
   };
 
-  const clearTaskAll = (index: number) => {
+  // const clearTaskAll = (index: number) => {
+  //   // var itemNow = [...taskItem];
+  //   // itemNow.splice(index, 1);
+  //   // setTaskItem(itemNow);
+  //   setTaskItem([]);
+  //   alert(`Bạn đã xoá ${taskItem.length} đã tạo`);
+  // };
+  const clearTaskAll = () => {
     // var itemNow = [...taskItem];
     // itemNow.splice(index, 1);
     // setTaskItem(itemNow);
     setTaskItem([]);
+    Alert.alert('Thông báo', `Bạn đã xoá ${taskItem.length} đã tạo!`);
   };
 
-  const onCheckedDone = () => {
+  const onCheckedDone = (selected: any) => {
+    // if (item.id === selected) {
+    //   setChecked(true);
+    // }
     setChecked(true);
   };
+
+  const modalClearTask = () => {};
 
   return (
     <SafeAreaView style={styles.container}>
@@ -56,24 +71,38 @@ const Note: FC = () => {
       <View style={styles.headerContainer}>
         <Image source={Images.ic_logo} style={styles.logoHeader} />
         <View style={{alignItems: 'flex-end'}}>
-          <TouchableOpacity
-            style={styles.buttonClearTask}
-            onPress={clearTaskAll}>
-            <Image source={Images.ic_delete} style={styles.iconButtonDelete} />
-          </TouchableOpacity>
-          <Text style={styles.timeDoTask}>03/08/2021</Text>
+          {taskItem.length > 0 ? (
+            <TouchableOpacity
+              style={styles.buttonClearTask}
+              onPress={clearTaskAll}>
+              <Image
+                source={Images.ic_delete}
+                style={styles.iconButtonDelete}
+              />
+            </TouchableOpacity>
+          ) : (
+            <View
+              style={[styles.buttonClearTask, {backgroundColor: colors.gray}]}
+              onPress={clearTaskAll}>
+              <Image
+                source={Images.ic_delete}
+                style={styles.iconButtonDelete}
+              />
+            </View>
+          )}
+          <Text style={styles.timeDoTask}>{moment().format('DD/MM/YYYY')}</Text>
           <Text style={styles.amountDoTask}>
-            Có {task.length > 0 || 0} công việc
+            Có {taskItem ? taskItem.length : 0} task
           </Text>
         </View>
       </View>
       <View style={styles.bodyContainer}>
         <ScrollView>
-          {taskItem.map((index: any) => {
+          {taskItem.map((item: any) => {
             return (
               <TouchableOpacity
                 style={{paddingVertical: Size.h16}}
-                onPress={onCheckedDone}>
+                onPress={() => onCheckedDone(item)}>
                 <View
                   style={checked ? styles.itemNoteChecked : styles.itemNote}>
                   <View
@@ -83,7 +112,7 @@ const Note: FC = () => {
                     style={
                       checked ? styles.itemContentChecked : styles.itemContent
                     }>
-                    {index}
+                    {item}
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -266,37 +295,5 @@ const styles = StyleSheet.create({
   icon: {
     width: Size.s80,
     height: Size.s80,
-  },
-  line: {
-    backgroundColor: colors.gray1,
-    height: 2,
-    width: width * 0.8,
-  },
-  unchecked: {
-    borderRadius: 10,
-    borderColor: colors.blue2,
-    borderWidth: 1.5,
-    width: 10,
-    height: 10,
-    backgroundColor: colors.white,
-  },
-  unCheckedSquare: {
-    width: 20,
-    height: 20,
-    backgroundColor: colors.blue2,
-    borderRadius: 5,
-  },
-  checked: {
-    borderRadius: 10,
-    borderWidth: 1.5,
-    width: 10,
-    height: 10,
-    backgroundColor: colors.gray,
-  },
-  checkedSquare: {
-    width: 20,
-    height: 20,
-    backgroundColor: colors.gray,
-    borderRadius: 5,
   },
 });
