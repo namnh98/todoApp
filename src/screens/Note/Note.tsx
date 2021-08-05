@@ -19,6 +19,8 @@ import {colors} from '../../styles/Color';
 import Images from '../../assets';
 import moment from 'moment';
 
+import FillTask from './components/FillTask';
+
 const {width, height} = Dimensions.get('window');
 
 const Note: FC = () => {
@@ -121,33 +123,12 @@ const Note: FC = () => {
         </ScrollView>
       </View>
       <View style={styles.endContainer}>
-        <View style={{paddingHorizontal: Size.h16}}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}>
-            <View style={styles.inputTask}>
-              <TextInput
-                placeholder="Nhập task của bạn..."
-                style={styles.taskContent}
-                value={task}
-                onChangeText={addNewTask}
-              />
-            </View>
-            <View style={{width: 10}} />
-            {task ? (
-              <TouchableOpacity
-                style={styles.buttonCleanTask}
-                onPress={clearTask}>
-                <Text style={{fontSize: Size.h20 * 2}}>x</Text>
-              </TouchableOpacity>
-            ) : null}
-          </View>
-        </View>
-        <TouchableOpacity style={styles.buttonAdd} onPress={handleWithTask}>
-          <Text style={styles.iconButtonAdd}>+</Text>
-        </TouchableOpacity>
+        <FillTask
+          task={task}
+          addNewTask={addNewTask}
+          clearTask={clearTask}
+          handleWithTask={handleWithTask}
+        />
       </View>
     </SafeAreaView>
   );
@@ -252,42 +233,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-  },
-  inputTask: {
-    width: Size.s200 + Size.s340,
-    height: Size.s160,
-    borderRadius: 20,
-    backgroundColor: colors.white,
-    justifyContent: 'center',
-    paddingHorizontal: Size.h16,
-  },
-  taskContent: {
-    fontSize: Size.h32,
-    color: colors.black,
-  },
-  buttonAdd: {
-    backgroundColor: colors.white,
-    width: Size.s100,
-    height: Size.s100,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 20,
-  },
-  iconButtonAdd: {
-    fontSize: Size.s100,
-    color: colors.blue6,
-    textAlign: 'center',
-    bottom: 8,
-  },
-  buttonCleanTask: {
-    backgroundColor: colors.gray,
-    width: Size.s140 / 2,
-    height: Size.s140 / 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 20,
-    position: 'absolute',
-    left: width * 0.6,
   },
   itemButton: {
     flexDirection: 'row',
