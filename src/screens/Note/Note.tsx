@@ -20,6 +20,7 @@ import Images from '../../assets';
 import moment from 'moment';
 
 import FillTask from './components/FillTask';
+import Header from './components/Header';
 
 const {width, height} = Dimensions.get('window');
 
@@ -51,9 +52,6 @@ const Note: FC = () => {
   //   alert(`Bạn đã xoá ${taskItem.length} đã tạo`);
   // };
   const clearTaskAll = () => {
-    // var itemNow = [...taskItem];
-    // itemNow.splice(index, 1);
-    // setTaskItem(itemNow);
     setTaskItem([]);
     Alert.alert('Thông báo', `Bạn đã xoá ${taskItem.length} đã tạo!`);
   };
@@ -65,38 +63,11 @@ const Note: FC = () => {
     setChecked(true);
   };
 
-  const modalClearTask = () => {};
-
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
       <View style={styles.headerContainer}>
-        <Image source={Images.ic_logo} style={styles.logoHeader} />
-        <View style={{alignItems: 'flex-end'}}>
-          {taskItem.length > 0 ? (
-            <TouchableOpacity
-              style={styles.buttonClearTask}
-              onPress={clearTaskAll}>
-              <Image
-                source={Images.ic_delete}
-                style={styles.iconButtonDelete}
-              />
-            </TouchableOpacity>
-          ) : (
-            <View
-              style={[styles.buttonClearTask, {backgroundColor: colors.gray}]}
-              onPress={clearTaskAll}>
-              <Image
-                source={Images.ic_delete}
-                style={styles.iconButtonDelete}
-              />
-            </View>
-          )}
-          <Text style={styles.timeDoTask}>{moment().format('DD/MM/YYYY')}</Text>
-          <Text style={styles.amountDoTask}>
-            Có {taskItem ? taskItem.length : 0} task
-          </Text>
-        </View>
+        <Header clearTaskAll={clearTaskAll} tasksLength={taskItem.length} />
       </View>
       <View style={styles.bodyContainer}>
         <ScrollView>
@@ -148,35 +119,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: Size.h16,
-  },
-  logoHeader: {
-    resizeMode: 'contain',
-    width: Size.s200 + Size.s140,
-    height: Size.s200,
-  },
-  iconButtonDelete: {
-    resizeMode: 'contain',
-    width: Size.h44,
-    height: Size.h44,
-  },
-  buttonClearTask: {
-    backgroundColor: colors.white,
-    width: Size.h44 * 2,
-    height: Size.h44 * 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 20,
-  },
-  timeDoTask: {
-    color: colors.white,
-    fontSize: Size.h28,
-    fontWeight: '500',
-    paddingVertical: Size.h16 / 2,
-  },
-  amountDoTask: {
-    color: colors.white,
-    fontSize: Size.h34,
-    fontWeight: '500',
   },
   bodyContainer: {
     width: width,
