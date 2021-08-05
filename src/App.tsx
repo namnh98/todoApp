@@ -2,7 +2,7 @@ import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import React, {FC} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 ////////////////////////////////////////////////////////////
-import Note from './Note';
+import Note from '../src/screens/Note';
 ////////////////////////////////////////////////////////////
 //stack navigation
 const Stack = createStackNavigator();
