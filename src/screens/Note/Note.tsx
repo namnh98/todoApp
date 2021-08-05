@@ -57,10 +57,14 @@ const Note: FC = () => {
   };
 
   const onCheckedDone = (selected: any) => {
-    // if (item.id === selected) {
-    //   setChecked(true);
-    // }
-    setChecked(true);
+    taskItem.map((item: any) => {
+      // console.log('item', item === selected);
+      if (item === selected) {
+        console.log('item', item);
+        setChecked(true);
+      }
+      return {...item};
+    });
   };
 
   return (
