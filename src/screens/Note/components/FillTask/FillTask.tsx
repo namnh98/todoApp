@@ -21,7 +21,7 @@ const FillTask: FC = props => {
             flexDirection: 'row',
             alignItems: 'center',
           }}>
-          <View style={styles.inputTask}>
+          <View style={[styles.inputTask, {borderColor: colors.red}]}>
             <TextInput
               placeholder="Nhập task của bạn..."
               style={styles.taskContent}
@@ -51,7 +51,7 @@ export default FillTask;
 const styles = StyleSheet.create({
   inputTask: {
     width: Size.s200 + Size.s340,
-    height: Size.s160,
+    height: Size.s100,
     borderRadius: 20,
     backgroundColor: colors.white,
     justifyContent: 'center',
@@ -62,12 +62,12 @@ const styles = StyleSheet.create({
     color: colors.black,
   },
   buttonCleanTask: {
-    backgroundColor: colors.gray,
-    width: Size.s140 / 2,
-    height: Size.s140 / 2,
+    backgroundColor: colors.gray1,
+    width: Size.s60,
+    height: Size.s60,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 20,
+    borderRadius: 30,
     position: 'absolute',
     left: width * 0.6,
   },
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     height: Size.s100,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 20,
+    borderRadius: 30,
   },
   iconButtonAdd: {
     fontSize: Size.s100,
