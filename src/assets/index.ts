@@ -5,7 +5,7 @@ const Images = {
   ic_logout: require('./images/logout.png'),
   ic_close: require('./images/close.png'),
   ic_logo: require('./images/logo.png'),
-  ic_delete: require('./images/Delete.png'),
+  ic_delete: require('./images/delete.png'),
 };
 
 export default Images;
