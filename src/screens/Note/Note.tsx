@@ -2,7 +2,7 @@ import React, {FC, useState} from 'react';
 import {
   View,
   StyleSheet,
-  Alert,
+  Platform,
   Text,
   SafeAreaView,
   TouchableOpacity,
@@ -71,7 +71,9 @@ const Note: FC = () => {
             scrollEnabled={taskItem.length > 2 ? true : false}
             showVerticalScroll={false}
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{flexGrow: 1}}>
+            contentContainerStyle={{
+              flexGrow: Platform.OS === 'android' ? 1 : 0,
+            }}>
             {taskItem.map((item: TaskProps) => {
               return (
                 <TouchableOpacity
