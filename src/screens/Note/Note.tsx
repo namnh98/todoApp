@@ -1,7 +1,6 @@
 import React, {FC, useState} from 'react';
 import {
   View,
-  FlatList,
   StyleSheet,
   Alert,
   Text,
@@ -10,8 +9,7 @@ import {
   Dimensions,
   Keyboard,
   StatusBar,
-  Image,
-  TextInput,
+  TouchableWithoutFeedback,
   ScrollView,
 } from 'react-native';
 import Size from '../../styles/Size';
@@ -22,7 +20,7 @@ import moment from 'moment';
 import FillTask from './components/FillTask';
 import Header from './components/Header';
 
-const {width, height} = Dimensions.get('window');
+const {width, height} = Dimensions.get('screen');
 
 const Note: FC = () => {
   const [checked, setChecked] = useState<boolean>(false);
@@ -44,13 +42,6 @@ const Note: FC = () => {
     setTask(null);
   };
 
-  // const clearTaskAll = (index: number) => {
-  //   // var itemNow = [...taskItem];
-  //   // itemNow.splice(index, 1);
-  //   // setTaskItem(itemNow);
-  //   setTaskItem([]);
-  //   alert(`Bạn đã xoá ${taskItem.length} đã tạo`);
-  // };
   const clearTaskAll = () => {
     setTaskItem([]);
     Alert.alert('Thông báo', `Bạn đã xoá ${taskItem.length} đã tạo!`);
@@ -58,54 +49,51 @@ const Note: FC = () => {
 
   const onCheckedDone = (selected: any) => {
     taskItem.map((item: any) => {
-      // console.log('item', item === selected);
       if (item === selected) {
         console.log('item', item);
-        setChecked(true);
+        setChecked(!checked);
       }
       return {...item};
     });
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" />
-      <View style={styles.headerContainer}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="light-content" backgroundColor={colors.blue6} />
         <Header clearTaskAll={clearTaskAll} tasksLength={taskItem.length} />
-      </View>
-      <View style={styles.bodyContainer}>
-        <ScrollView>
-          {taskItem.map((item: any) => {
-            return (
-              <TouchableOpacity
-                style={{paddingVertical: Size.h16}}
-                onPress={() => onCheckedDone(item)}>
-                <View
-                  style={checked ? styles.itemNoteChecked : styles.itemNote}>
+        <View style={styles.bodyContainer}>
+          <ScrollView>
+            {taskItem.map((item: any) => {
+              return (
+                <TouchableOpacity
+                  style={{paddingVertical: Size.h16}}
+                  onPress={() => onCheckedDone(item)}>
                   <View
-                    style={checked ? styles.dotTaskChecked : styles.dotTask}
-                  />
-                  <Text
-                    style={
-                      checked ? styles.itemContentChecked : styles.itemContent
-                    }>
-                    {item}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
-      </View>
-      <View style={styles.endContainer}>
+                    style={checked ? styles.itemNoteChecked : styles.itemNote}>
+                    <View
+                      style={checked ? styles.dotTaskChecked : styles.dotTask}
+                    />
+                    <Text
+                      style={
+                        checked ? styles.itemContentChecked : styles.itemContent
+                      }>
+                      {item}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+        </View>
         <FillTask
           task={task}
           addNewTask={addNewTask}
           clearTask={clearTask}
           handleWithTask={handleWithTask}
         />
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -116,18 +104,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.blue6,
   },
-  headerContainer: {
-    height: 150,
-    width: width,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: Size.h16,
-  },
   bodyContainer: {
     width: width,
     height: height * 0.6,
     alignItems: 'center',
+    flex: 1,
   },
   itemNote: {
     paddingHorizontal: Size.h16,
@@ -154,6 +135,7 @@ const styles = StyleSheet.create({
   itemContent: {
     fontSize: Size.h38,
     paddingHorizontal: Size.h16,
+    color: colors.black,
   },
   itemContentChecked: {
     fontSize: Size.h38,
@@ -171,14 +153,6 @@ const styles = StyleSheet.create({
     width: Size.s40,
     height: Size.s40,
     borderRadius: 20,
-  },
-  endContainer: {
-    width: width,
-    height: Size.s200 + Size.s60,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
   },
   itemButton: {
     flexDirection: 'row',

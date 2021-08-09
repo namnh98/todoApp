@@ -14,7 +14,7 @@ const {width, height} = Dimensions.get('window');
 
 const FillTask: FC = props => {
   return (
-    <>
+    <View style={styles.endContainer}>
       <View style={{paddingHorizontal: Size.h16}}>
         <View
           style={{
@@ -28,21 +28,22 @@ const FillTask: FC = props => {
               value={props.task}
               onChangeText={props.addNewTask}
             />
+            {props.task ? (
+              <TouchableOpacity
+                style={styles.buttonCleanTask}
+                onPress={props.clearTask}>
+                <Text style={{fontSize: Size.h20 * 2, textAlign: 'center'}}>
+                  x
+                </Text>
+              </TouchableOpacity>
+            ) : null}
           </View>
-          <View style={{width: 10}} />
-          {props.task ? (
-            <TouchableOpacity
-              style={styles.buttonCleanTask}
-              onPress={props.clearTask}>
-              <Text style={{fontSize: Size.h20 * 2}}>x</Text>
-            </TouchableOpacity>
-          ) : null}
         </View>
       </View>
       <TouchableOpacity style={styles.buttonAdd} onPress={props.handleWithTask}>
         <Text style={styles.iconButtonAdd}>+</Text>
       </TouchableOpacity>
-    </>
+    </View>
   );
 };
 
@@ -54,12 +55,16 @@ const styles = StyleSheet.create({
     height: Size.s100,
     borderRadius: 20,
     backgroundColor: colors.white,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: Size.h16,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   taskContent: {
     fontSize: Size.h32,
     color: colors.black,
+    width: '85%',
+    paddingHorizontal: Size.h16,
   },
   buttonCleanTask: {
     backgroundColor: colors.gray1,
@@ -68,8 +73,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 30,
-    position: 'absolute',
-    left: width * 0.6,
   },
   buttonAdd: {
     backgroundColor: colors.white,
@@ -84,5 +87,13 @@ const styles = StyleSheet.create({
     color: colors.blue6,
     textAlign: 'center',
     bottom: 8,
+  },
+  endContainer: {
+    width: width,
+    height: height * 0.12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
   },
 });

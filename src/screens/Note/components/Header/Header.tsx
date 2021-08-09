@@ -1,13 +1,22 @@
 import React, {FC} from 'react';
-import {Text, View, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
 import Images from '../../../../assets';
 import {colors} from '../../../../styles/Color';
 import moment from 'moment';
 import Size from '../../../../styles/Size';
 
+const {width, height} = Dimensions.get('screen');
+
 const Header: FC = props => {
   return (
-    <>
+    <View style={styles.headerContainer}>
       <Image source={Images.ic_logo} style={styles.logoHeader} />
       <View style={{alignItems: 'flex-end'}}>
         {props.tasksLength > 0 ? (
@@ -37,7 +46,7 @@ const Header: FC = props => {
         <Text style={styles.timeDoTask}>{moment().format('DD/MM/YYYY')}</Text>
         <Text style={styles.amountDoTask}>Có {props.tasksLength} task</Text>
       </View>
-    </>
+    </View>
   );
 };
 
@@ -72,5 +81,13 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: Size.h34,
     fontWeight: '500',
+  },
+  headerContainer: {
+    width: width,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: Size.h16,
+    height: Size.s260,
   },
 });
