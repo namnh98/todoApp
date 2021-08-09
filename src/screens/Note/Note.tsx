@@ -14,8 +14,7 @@ import {
 } from 'react-native';
 import Size from '../../styles/Size';
 import {colors} from '../../styles/Color';
-import Images from '../../assets';
-import moment from 'moment';
+import uuid from 'react-native-uuid';
 
 import FillTask from './components/FillTask';
 import Header from './components/Header';
@@ -27,6 +26,7 @@ const Note: FC = () => {
   const [task, setTask] = useState<string>(false);
   const [taskItem, setTaskItem] = useState<any>([]);
   const [open, setOpen] = useState<boolean>(false);
+  const [id, setId] = useState<string>(uuid.v4());
 
   const addNewTask = (text: string) => {
     setTask(text);
@@ -38,8 +38,11 @@ const Note: FC = () => {
 
   const handleWithTask = () => {
     Keyboard.dismiss();
+    console.log('id', id);
+    const newArr = {id: id, task: task};
     setTaskItem([...taskItem, task]);
     setTask(null);
+    setId('');
   };
 
   const clearTaskAll = () => {
@@ -65,6 +68,7 @@ const Note: FC = () => {
         <View style={styles.bodyContainer}>
           <ScrollView>
             {taskItem.map((item: any) => {
+              console.log('task', taskItem);
               return (
                 <TouchableOpacity
                   style={{paddingVertical: Size.h16}}

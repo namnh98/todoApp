@@ -51,7 +51,7 @@ export default FillTask;
 
 const styles = StyleSheet.create({
   inputTask: {
-    width: Size.s200 + Size.s340,
+    width: Size.s340 * 1.8,
     height: Size.s100,
     borderRadius: 20,
     backgroundColor: colors.white,
