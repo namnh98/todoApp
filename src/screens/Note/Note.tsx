@@ -18,15 +18,16 @@ import uuid from 'react-native-uuid';
 
 import FillTask from './components/FillTask';
 import Header from './components/Header';
+import {TaskProps} from './components/types';
 
 const {width, height} = Dimensions.get('screen');
 
 const Note: FC = () => {
   const [checked, setChecked] = useState<boolean>(false);
-  const [task, setTask] = useState<string>(false);
+  const [task, setTask] = useState<TaskProps>('');
   const [taskItem, setTaskItem] = useState<any>([]);
-  const [open, setOpen] = useState<boolean>(false);
-  const [id, setId] = useState<string>(uuid.v4());
+  const [isEmpty, setIsEmpty] = useState<boolean>(false);
+  const [id, setId] = useState<TaskProps>(uuid.v4());
 
   const addNewTask = (text: string) => {
     setTask(text);
@@ -36,13 +37,22 @@ const Note: FC = () => {
     setTask('');
   };
 
+  const getID = () => {
+    return uuid.v4();
+  };
+
   const handleWithTask = () => {
-    Keyboard.dismiss();
-    console.log('id', id);
-    const newArr = {id: id, task: task};
-    setTaskItem([...taskItem, task]);
-    setTask(null);
-    setId('');
+    if (!task) {
+      setIsEmpty(true);
+    } else {
+      Keyboard.dismiss();
+      setIsEmpty(false);
+      const arrTask = [];
+      arrTask.push({id, task});
+      setTaskItem(taskItem.concat(arrTask));
+      setTask('');
+      setId(getID());
+    }
   };
 
   const clearTaskAll = () => {
@@ -50,14 +60,11 @@ const Note: FC = () => {
     Alert.alert('Thông báo', `Bạn đã xoá ${taskItem.length} đã tạo!`);
   };
 
-  const onCheckedDone = (selected: any) => {
-    taskItem.map((item: any) => {
-      if (item === selected) {
-        console.log('item', item);
-        setChecked(!checked);
-      }
-      return {...item};
-    });
+  const onCheckedDone = (itemSelected: TaskProps) => {
+    const itemTasks = [...taskItem];
+    const positon = itemTasks.indexOf(itemSelected);
+    itemTasks.splice(positon, 1);
+    setTaskItem(itemTasks);
   };
 
   return (
@@ -66,11 +73,14 @@ const Note: FC = () => {
         <StatusBar barStyle="light-content" backgroundColor={colors.blue6} />
         <Header clearTaskAll={clearTaskAll} tasksLength={taskItem.length} />
         <View style={styles.bodyContainer}>
-          <ScrollView>
-            {taskItem.map((item: any) => {
-              console.log('task', taskItem);
+          <ScrollView
+            scrollEnabled={taskItem.length > 2 ? 'true' : 'false'}
+            showVerticalScroll={false}
+            showsVerticalScrollIndicator={false}>
+            {taskItem.map((item: TaskProps) => {
               return (
                 <TouchableOpacity
+                  key={item.id}
                   style={{paddingVertical: Size.h16}}
                   onPress={() => onCheckedDone(item)}>
                   <View
@@ -82,7 +92,7 @@ const Note: FC = () => {
                       style={
                         checked ? styles.itemContentChecked : styles.itemContent
                       }>
-                      {item}
+                      {item.task}
                     </Text>
                   </View>
                 </TouchableOpacity>
@@ -90,6 +100,26 @@ const Note: FC = () => {
             })}
           </ScrollView>
         </View>
+        {isEmpty && !task ? (
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: Size.s60,
+              backgroundColor: colors.red,
+              width: width * 0.78,
+              borderRadius: 8,
+              top: 25,
+              left: 20,
+              // position: 'absolute',
+              // top: height * 0.835,
+              // left: Size.s40,
+            }}>
+            <Text style={{color: colors.white, fontSize: Size.h30}}>
+              Ô task còn trống!
+            </Text>
+          </View>
+        ) : null}
         <FillTask
           task={task}
           addNewTask={addNewTask}

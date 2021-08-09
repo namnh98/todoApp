@@ -6,44 +6,61 @@ import {
   TextInput,
   TouchableOpacity,
   Dimensions,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
+import {color} from 'react-native-reanimated';
 import {colors} from '../../../../styles/Color';
 import Size from '../../../../styles/Size';
 
-const {width, height} = Dimensions.get('window');
+const {width, height} = Dimensions.get('screen');
 
 const FillTask: FC = props => {
   return (
-    <View style={styles.endContainer}>
-      <View style={{paddingHorizontal: Size.h16}}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}>
-          <View style={[styles.inputTask, {borderColor: colors.red}]}>
-            <TextInput
-              placeholder="Nhập task của bạn..."
-              style={styles.taskContent}
-              value={props.task}
-              onChangeText={props.addNewTask}
-            />
-            {props.task ? (
-              <TouchableOpacity
-                style={styles.buttonCleanTask}
-                onPress={props.clearTask}>
-                <Text style={{fontSize: Size.h20 * 2, textAlign: 'center'}}>
-                  x
-                </Text>
-              </TouchableOpacity>
-            ) : null}
+    <KeyboardAvoidingView
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        width: width,
+        paddingHorizontal: Size.h16,
+      }}
+      behavior={Platform.OS === 'ios' ? 'padding' : null}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 10 : 0}>
+      <ScrollView>
+        <View style={styles.endContainer}>
+          <View style={{paddingHorizontal: Size.h16}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <View style={styles.inputTask}>
+                <TextInput
+                  placeholder="Nhập task của bạn..."
+                  style={styles.taskContent}
+                  value={props.task}
+                  onChangeText={props.addNewTask}
+                />
+                {props.task ? (
+                  <TouchableOpacity
+                    style={styles.buttonCleanTask}
+                    onPress={props.clearTask}>
+                    <Text style={{fontSize: Size.h20 * 2, textAlign: 'center'}}>
+                      x
+                    </Text>
+                  </TouchableOpacity>
+                ) : null}
+              </View>
+            </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
       <TouchableOpacity style={styles.buttonAdd} onPress={props.handleWithTask}>
         <Text style={styles.iconButtonAdd}>+</Text>
       </TouchableOpacity>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -51,7 +68,7 @@ export default FillTask;
 
 const styles = StyleSheet.create({
   inputTask: {
-    width: Size.s340 * 1.8,
+    width: Size.s340 * 1.7,
     height: Size.s100,
     borderRadius: 20,
     backgroundColor: colors.white,
@@ -94,6 +111,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
+    paddingHorizontal: Size.h16,
   },
 });

@@ -19,30 +19,6 @@ const Header: FC = props => {
     <View style={styles.headerContainer}>
       <Image source={Images.ic_logo} style={styles.logoHeader} />
       <View style={{alignItems: 'flex-end'}}>
-        {props.tasksLength > 0 ? (
-          <>
-            <TouchableOpacity
-              style={styles.buttonClearTask}
-              onPress={props.clearTaskAll}>
-              <Image
-                source={Images.ic_delete}
-                style={styles.iconButtonDelete}
-              />
-            </TouchableOpacity>
-            <View style={{height: 10}} />
-          </>
-        ) : (
-          <>
-            <View
-              style={[styles.buttonClearTask, {backgroundColor: colors.gray}]}>
-              <Image
-                source={Images.ic_delete}
-                style={styles.iconButtonDelete}
-              />
-            </View>
-            <View style={{height: 10}} />
-          </>
-        )}
         <Text style={styles.timeDoTask}>{moment().format('DD/MM/YYYY')}</Text>
         <Text style={styles.amountDoTask}>Có {props.tasksLength} task</Text>
       </View>
