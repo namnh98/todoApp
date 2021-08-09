@@ -23,7 +23,6 @@ import {TaskProps} from './components/types';
 const {width, height} = Dimensions.get('screen');
 
 const Note: FC = () => {
-  const [checked, setChecked] = useState<boolean>(false);
   const [task, setTask] = useState<TaskProps>('');
   const [taskItem, setTaskItem] = useState<any>([]);
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
@@ -55,11 +54,6 @@ const Note: FC = () => {
     }
   };
 
-  const clearTaskAll = () => {
-    setTaskItem([]);
-    Alert.alert('Thông báo', `Bạn đã xoá ${taskItem.length} đã tạo!`);
-  };
-
   const onCheckedDone = (itemSelected: TaskProps) => {
     const itemTasks = [...taskItem];
     const positon = itemTasks.indexOf(itemSelected);
@@ -71,29 +65,22 @@ const Note: FC = () => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="light-content" backgroundColor={colors.blue6} />
-        <Header clearTaskAll={clearTaskAll} tasksLength={taskItem.length} />
+        <Header tasksLength={taskItem.length} />
         <View style={styles.bodyContainer}>
           <ScrollView
-            scrollEnabled={taskItem.length > 2 ? 'true' : 'false'}
+            scrollEnabled={taskItem.length > 2 ? true : false}
             showVerticalScroll={false}
-            showsVerticalScrollIndicator={false}>
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{flexGrow: 1}}>
             {taskItem.map((item: TaskProps) => {
               return (
                 <TouchableOpacity
                   key={item.id}
                   style={{paddingVertical: Size.h16}}
                   onPress={() => onCheckedDone(item)}>
-                  <View
-                    style={checked ? styles.itemNoteChecked : styles.itemNote}>
-                    <View
-                      style={checked ? styles.dotTaskChecked : styles.dotTask}
-                    />
-                    <Text
-                      style={
-                        checked ? styles.itemContentChecked : styles.itemContent
-                      }>
-                      {item.task}
-                    </Text>
+                  <View style={styles.itemNote}>
+                    <View style={styles.dotTask} />
+                    <Text style={styles.itemContent}>{item.task}</Text>
                   </View>
                 </TouchableOpacity>
               );
